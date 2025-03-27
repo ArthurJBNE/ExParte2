@@ -1,0 +1,20 @@
+# Arquivos de build
+bin/
+obj/
+Debug/
+Release/
+
+# Arquivos de IDE
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.log
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db 
