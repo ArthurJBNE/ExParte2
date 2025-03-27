@@ -1,35 +1,39 @@
 using System;
 
-namespace ExerciciosFinanceiros
+namespace Exercicios
 {
     public class Problema3
     {
-        public static void CalcularRendimentoEntrada()
+        public static void CalcularRendimentoComEntrada()
         {
             Console.WriteLine("Cálculo de Rendimento com Entrada de Dados");
             Console.WriteLine("========================================");
 
-            Console.Write("Digite o Valor Presente: R$ ");
-            decimal valorPresente = decimal.Parse(Console.ReadLine());
+            Console.Write("Digite o Valor Inicial (R$): ");
+            decimal valorInicial = decimal.Parse(Console.ReadLine());
 
             Console.Write("Digite a Taxa de Juros (%): ");
-            decimal taxaJuros = decimal.Parse(Console.ReadLine());
+            decimal taxaJuros = decimal.Parse(Console.ReadLine()) / 100;
 
-            Console.Write("Digite o Período (anos): ");
-            int periodoAnos = int.Parse(Console.ReadLine());
+            Console.Write("Digite o Período (meses): ");
+            int periodoMeses = int.Parse(Console.ReadLine());
 
-            // Cálculo do rendimento
-            decimal taxaDecimal = taxaJuros / 100;
-            decimal valorFuturo = valorPresente * (decimal)Math.Pow(1 + (double)taxaDecimal, periodoAnos);
-            decimal rendimento = valorFuturo - valorPresente;
+            decimal saldoAtual = valorInicial;
+            decimal rendaAcumulada = valorInicial;
 
-            Console.WriteLine("\nResultados:");
-            Console.WriteLine("===========");
-            Console.WriteLine($"Valor Presente: R$ {valorPresente:F2}");
-            Console.WriteLine($"Taxa de Juros: {taxaJuros}%");
-            Console.WriteLine($"Período: {periodoAnos} anos");
-            Console.WriteLine($"Rendimento: R$ {rendimento:F2}");
-            Console.WriteLine($"Valor Futuro: R$ {valorFuturo:F2}");
+            Console.WriteLine("\nEvolução do Investimento:");
+            Console.WriteLine("Mês | Saldo Atual | Rendimento | Renda Acumulada");
+            Console.WriteLine("----|-------------|------------|-----------------");
+
+            for (int mes = 1; mes <= periodoMeses; mes++)
+            {
+                decimal rendimento = saldoAtual * taxaJuros;
+                decimal rendimentoLiquido = rendimento - (rendimento * 0.15M); // 15% de imposto
+                saldoAtual += rendimentoLiquido;
+                rendaAcumulada = Math.Round(saldoAtual + rendimentoLiquido, 2);
+
+                Console.WriteLine($"{mes,3} | R$ {saldoAtual,9:F2} | R$ {rendimentoLiquido,9:F2} | R$ {rendaAcumulada,9:F2}");
+            }
         }
     }
 } 

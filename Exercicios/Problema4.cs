@@ -1,54 +1,31 @@
 using System;
 
-namespace ExerciciosFinanceiros
+namespace Exercicios
 {
     public class Problema4
     {
         public static void CalcularRendimentoComResgate()
         {
-            Console.WriteLine("Cálculo de Rendimento com Resgate");
-            Console.WriteLine("================================");
+            decimal valorInicial = 1000.00M;
+            decimal taxaJuros = 0.05M;
+            decimal saldoAtual = valorInicial;
+            decimal rendaAcumulada = valorInicial;
 
-            Console.Write("Digite o Valor Presente (R$): ");
-            decimal valorPresente = decimal.Parse(Console.ReadLine());
+            Console.WriteLine($"Valor Inicial: R$ {valorInicial:F2}");
+            Console.WriteLine($"Taxa de Juros: {taxaJuros:P2}");
+            Console.WriteLine("\nEvolução do Investimento com Resgate:");
+            Console.WriteLine("Mês | Saldo Atual | Rendimento | Resgate | Renda Acumulada");
+            Console.WriteLine("----|-------------|------------|---------|-----------------");
 
-            Console.Write("Digite a Taxa de Juros mensal (%): ");
-            decimal taxaJuros = decimal.Parse(Console.ReadLine());
-
-            Console.Write("Digite o Período total (meses): ");
-            int periodoMeses = int.Parse(Console.ReadLine());
-
-            Console.Write("Digite o mês do resgate: ");
-            int mesResgate = int.Parse(Console.ReadLine());
-
-            Console.Write("Digite o valor do resgate (R$): ");
-            decimal valorResgate = decimal.Parse(Console.ReadLine());
-
-            Console.WriteLine("\nDados informados:");
-            Console.WriteLine($"Valor Presente: R$ {valorPresente:F2}");
-            Console.WriteLine($"Taxa de Juros: {taxaJuros}%");
-            Console.WriteLine($"Período: {periodoMeses} meses");
-            Console.WriteLine($"Resgate no mês {mesResgate}: R$ {valorResgate:F2}");
-
-            Console.WriteLine("\nTeste de Mesa:");
-            Console.WriteLine("Mês | Valor Presente | Rendimento | Resgate | Saldo Final");
-            Console.WriteLine("----|----------------|------------|----------|-------------");
-
-            decimal saldo = valorPresente;
-
-            for (int mes = 1; mes <= periodoMeses; mes++)
+            for (int mes = 1; mes <= 6; mes++)
             {
-                decimal rendimento = saldo * (taxaJuros / 100);
-                decimal saldoAnterior = saldo;
-                
-                if (mes == mesResgate)
-                {
-                    saldo -= valorResgate;
-                }
-                
-                saldo += rendimento;
+                decimal rendimento = saldoAtual * taxaJuros;
+                decimal rendimentoLiquido = rendimento - (rendimento * 0.15M); // 15% de imposto
+                decimal resgate = mes == 3 ? 200.00M : 0.00M; // Resgate no 3º mês
+                saldoAtual += rendimentoLiquido - resgate;
+                rendaAcumulada = Math.Round(saldoAtual + rendimentoLiquido, 2);
 
-                Console.WriteLine($"{mes,3} | R$ {saldoAnterior:F2} | R$ {rendimento:F2} | {(mes == mesResgate ? $"R$ {valorResgate:F2}" : "R$ 0,00")} | R$ {saldo:F2}");
+                Console.WriteLine($"{mes,3} | R$ {saldoAtual,9:F2} | R$ {rendimentoLiquido,9:F2} | R$ {resgate,7:F2} | R$ {rendaAcumulada,9:F2}");
             }
         }
     }
